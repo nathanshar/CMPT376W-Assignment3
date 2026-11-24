@@ -1,27 +1,96 @@
-# LogLens - find all your log problems fast
+# LogLens v1.0
 
-LogLens is a really simple program that tells you what's happening in your logs. It is useful for developers, IT staff, customers, and anybody who has a computer. You don't really need to know anything about log files to get started. It finds problems in your files, so you can use it to make decisions about your system. Your data is always 100% secure.
+LogLens is a command-line Python tool that counts the records in CSV log files. LogLens lets users run commands to count all records or filter records by a specific log level.
 
-## Requirements and things
+LogLens is designed for undergraduate computing students and new technical interns with basic knowledge of terminal commands and CSV files.
 
-You need Python. Most computers already have it, and version 3.6 or later should be good enough. It works on Windows, Mac, and Linux. Other than that, there is not much to know.
+LogLens processes files locally; it does not modify, repair, or upload input files, and it doesn't diagnose system failures.
 
-## Get started
+## Requirements
 
-First, get the project files from GitHub. Then install the program using `pip install log-lens` and run it by typing `loglens`. If you can't make it work, see docs/INSTALL.md. You probably won't need those instructions.
+- Python 3.10 or newer
+- CSV file containing the required column headers
+- Basic familiarity with terminal commands and CSV files
+- Third-party dependencies and package installation are not required
 
-## Using the program
+## Getting Started
 
-Run the following command after you have found the correct folder:
+1. Download and extract the project files from this GitHub repository.
+2. Open a terminal and navigate to the repository root (folder containing `loglens.py`).
+3. Follow the [Installation and Setup Guide](docs/INSTALL.md) for detailed instructions.
 
-`loglens --input mylog.csv --severity error`
+## Usage
 
-The software scans your log, fixes mistakes, and shows you what went wrong. You will see a number once it is finished. You can also run it on real production files without worrying about any side effects.
+From the repository root, run the following commands.
 
-## Input format
+### Count records by log level
 
-The input should be a CSV file. Log files tend to have fields describing the time and what happened, but LogLens is flexible and will work with whatever columns your monitoring system uses. A small example is included somewhere in this repository.
+To count records with the `ERROR` log level in the provided sample file, run:
 
-## Questions
+```bash
+python loglens.py --file data/sample_logs.csv --level ERROR
+```
 
-If something doesn't work, just contact the developers or create an issue. Make sure you describe the problem so somebody can help. This is a basic tool, so the instructions should be pretty obvious.
+Expected output:
+
+```text
+Records matching ERROR: 2
+```
+
+### Count all records
+
+To count all records without filtering by log level, run:
+
+```bash
+python loglens.py --file data/sample_logs.csv
+```
+
+Expected output:
+
+```text
+Records matching ALL: 6
+```
+
+### Command-line arguments
+
+
+| Argument  | Required | Description                                                                         |
+| --------- | -------- | ----------------------------------------------------------------------------------- |
+| `--file`  | Yes      | Specifies the path to the input CSV file.                                           |
+| `--level` | No       | Filters records by `INFO`, `WARN`, or `ERROR`. If omitted, all records are counted. |
+| `--help`  | No       | Displays available command-line options.                                            |
+
+
+To view the available options, run:
+
+```bash
+python loglens.py --help
+```
+
+**Note:** Depending on the computer in use, you may need to replace `python` with `python3` or `py`.
+
+## CSV Input Format
+
+The input CSV file must contain the following exact column headers:
+
+
+| Column      | Description                                |
+| ----------- | ------------------------------------------ |
+| `timestamp` | The recorded time of the log entry.        |
+| `level`     | The log level: `INFO`, `WARN`, or `ERROR`. |
+| `message`   | The message associated with the log entry. |
+
+ 
+Log levels must be in uppercase.
+
+A verified example is available in the [sample CSV file](data/sample_logs.csv).
+
+To use your own CSV file, replace `data/sample_logs.csv` in the example with the path to your file.
+
+## Troubleshooting and Support
+
+For setup instructions and common problems, refer to the [Installation and Setup Guide](docs/INSTALL.md).
+
+If you encounter an unresolved problem, describe the issue in a GitHub issue and provide a sanitized, minimal example when necessary.
+
+**Privacy warning:** Do not publicly share original log files containing personal, confidential, or any sensitive information.
